@@ -33,9 +33,32 @@ class InvoiceRepository
    @invoices
   end
 
-
   def all
     @invoices
+  end
+
+  def find_by_id(number)
+    @invoices.find do |num|
+      num.id.to_i == number
+    end
+  end
+
+  def find_all_by_customer_id(number)
+    @invoices.find_all do |num|
+      num.customer_id.to_i == number
+    end
+  end
+
+  def find_all_by_merchant_id(number)
+    @invoices.find_all do |num|
+      num.merchant_id.to_i == number
+    end
+  end
+
+  def find_all_by_status(status_input)
+    @invoices.find_all do |num|
+      num.status == status_input
+    end
   end
 
   def inspect
