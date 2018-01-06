@@ -18,8 +18,8 @@ class InvoiceRepository
       customer_id  =  row[:customer_id]
       merchant_id =  row[:merchant_id]
       status    =   row [:status]
-      created_at =  row[:created_at]
-      updated_at = row[:updated_at]
+      created_at =  Time.parse(row[:created_at])
+      updated_at = Time.parse(row[:updated_at])
       @invoices << Invoice.new({
         id: id,
         customer_id: customer_id,
