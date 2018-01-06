@@ -27,7 +27,7 @@ class SalesEngine
   end
 
   def self.read_csv(file_path)
-    CSV.foreach(file_path, headers: true, header_converters: :symbol)
+    CSV.readlines(file_path, headers: true, header_converters: :symbol)
   end
 
   def find_item_by_merchant_id(id) # NEEDS TESTS || RETURNS ITEM IF MERCHANT ID == ID
