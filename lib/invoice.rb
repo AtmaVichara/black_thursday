@@ -30,11 +30,11 @@ class Invoice
   end
 
   def transactions
-    invoice_repo.transactions(@id)
+    invoice_repo.find_transactions_by_invoice_id(@id) #rename
   end
 
   def customer
-    invoice_repo.customer(@customer_id)
+    invoice_repo.find_customer_by_customer_id(@customer_id) #rename
   end
 
   def merchant
