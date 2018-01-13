@@ -48,7 +48,7 @@ class TransactionRepository
     end
   end
 
-  def find_invoice_by_id(invoice_id)
-    se.invoices.find_by_id(invoice_id)
+  def find_invoice_by_invoice_id(invoice_id)
+    se.find_invoices_by_invoice_id(invoice_id)
   end
 end

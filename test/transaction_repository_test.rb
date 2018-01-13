@@ -71,20 +71,13 @@ class TransactionRepositoryTest < Minitest::Test
     assert_equal [], nil_transactions
   end
 
-  def test_it_finds_invoices_by_id
-    skip
-    se = SalesEngine.from_csv({
-      :merchants => "./test/fixtures/merchants_sample.csv",
-      :invoices => "./test/fixtures/invoices_sample.csv",
-      :transactions => "./test/fixtures/transactions_sample.csv"
-    })
-    found_transaction = se.transactions.find_invoice_by_id(2179)
+  def test_it_finds_invoices_by_invoice_id
+    invoice_1 = mock('invoice')
+    invoice_2 = mock('invoice2')
+    invoice_3 = mock('invoice3')
+    tr_repo.se.stubs(:find_invoices_by_invoice_id).returns([invoice_1, invoice_2, invoice_3])
 
-    assert_equal 12334633, found_transaction.merchant_id
-    refute_equal 12222222, found_transaction.merchant_id
-    assert_equal :returned, found_transaction.status
-    assert_equal 433, found_transaction.customer_id
-    refute_equal :shipped, found_transaction.status
+    assert_equal [invoice_1, invoice_2, invoice_3], tr_repo.find_invoice_by_invoice_id(4)
   end
 
 end
