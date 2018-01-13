@@ -51,6 +51,7 @@ class TransactionRepositoryTest < Minitest::Test
       assert_equal 4068631943231473, tr.credit_card_number
     end
     assert_equal [], nil_tr
+    assert_nil nil_tr.first
   end
 
   def test_it_finds_all_by_result
