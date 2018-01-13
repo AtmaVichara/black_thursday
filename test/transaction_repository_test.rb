@@ -54,12 +54,21 @@ class TransactionRepositoryTest < Minitest::Test
   end
 
   def test_it_finds_all_by_result
-    skip
-    transaction = TransactionRepository.new("./test/fixtures/transactions_sample.csv", "se")
-    found_id = transaction.find_all_by_result("success")
+    succ_transactions = tr_repo.find_all_by_result("success")
+    failed_transactions = tr_repo.find_all_by_result("failed")
+    nil_transactions = tr_repo.find_all_by_result("pending")
 
-    assert_equal 8, found_id.count
-    refute_equal 4, found_id.count
+    assert_equal 8, succ_transactions.count
+    assert_equal 2, failed_transactions.count
+    succ_transactions.each do |tr|
+      assert_instance_of Transaction, tr
+      assert_equal 'success', tr.result
+    end
+    failed_transactions.each do |tr|
+      assert_instance_of Transaction, tr
+      assert_equal 'failed', tr.result
+    end
+    assert_equal [], nil_transactions
   end
 
   def test_it_finds_invoices_by_id
