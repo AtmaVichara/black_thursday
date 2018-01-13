@@ -28,11 +28,11 @@ class InvoiceRepository
     se.invoice_items.find_all_by_invoice_id(invoice_id)
   end
 
-  def transactions(invoice_id)
+  def find_transactions_by_invoice_id(invoice_id)
     se.transactions.find_all_by_invoice_id(invoice_id)
   end
 
-  def customer(customer_id)
+  def find_customer_by_customer_id(customer_id)
     se.customers.find_by_id(customer_id)
   end
 

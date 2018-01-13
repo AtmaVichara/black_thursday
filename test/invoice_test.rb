@@ -17,12 +17,20 @@ class InvoicesTest < Minitest::Test
     @invoice = Invoice.new(invoice_data, parent)
   end
 
+  def test_it_has_attributes
+    assert_equal 6, invoice.id
+    assert_equal 7, invoice.customer_id
+    assert_equal 8, invoice.merchant_id
+    assert_equal :pending, invoice.status
+    assert_equal Time.parse("2012-01-07 15:15:22 -0700"), invoice.created_at
+    assert_equal Time.parse("2018-01-07 15:15:22 -0700"), invoice.updated_at
+  end
+
   def test_it_returns_items_by_id_in_invoice_items
     ii = mock('invoice_item')
     ii_2 = mock('invoice_item2')
     ii_3 = mock('invoice_item3')
     invoice.invoice_repo.stubs(:find_invoice_items_by_id).returns([ii, ii_2, ii_3])
-
 
     assert_equal [ii, ii_2, ii_3], invoice.invoice_items
   end
@@ -35,51 +43,55 @@ class InvoicesTest < Minitest::Test
     invoice.invoice_repo.stubs(:find_invoice_items_by_id).returns([ii])
     invoice.invoice_repo.stubs(:find_item_by_id).returns(ii.item_id)
 
-    # binding.pry
-
     assert_equal [item1, item2, item3], invoice.items.flatten(1)
   end
 
   def test_it_returns_customers_by_invoice_id
     c = mock('customer')
     ii = stub(customer_id: c)
-    invoice.invoice_repo.stubs(:customer).returns(ii.customer_id)
+    invoice.invoice_repo.stubs(:find_customer_by_customer_id).returns(ii.customer_id)
 
     assert_equal c, invoice.customer
   end
 
-  def test_it_returns_merchant_by_invoice_id
-    skip
+  def test_it_returns_merchant_by_merchant_id
     m = mock('merchant')
-    invoice.invoice_repo.stubs(:merchant).returns(m)
+    invoice.invoice_repo.stubs(:find_merchant_by_merchant_id).returns(m)
 
     assert_equal m, invoice.merchant
   end
 
   def test_it_returns_success_for_is_paid_in_full
-    skip
-    se = SalesEngine.from_csv({
-      invoices: "./test/fixtures/invoices_sample.csv",
-      transactions: "./test/fixtures/transactions_sample.csv",
-      items: "./test/fixtures/items_sample.csv"
-    })
-    invoice = se.invoices.find_by_id(2179)
+    tr = mock('transaction')
+    invoice.invoice_repo.stubs(:find_transactions_by_invoice_id).returns(tr)
 
-    assert_equal 2, invoice.transactions.count
+    assert_equal tr, invoice.transactions
+  end
+
+  def test_it_is_paid_in_full
+    tr_1 = stub(result: 'success')
+    tr_2 = stub(result: 'failed')
+    tr_3 = stub(result: 'failed')
+
+    invoice.invoice_repo.stubs(:find_transactions_by_invoice_id).returns([tr_1, tr_2, tr_3])
+
+    assert_equal true, invoice.is_paid_in_full?
+
+    invoice.invoice_repo.stubs(:find_transactions_by_invoice_id).returns([tr_2, tr_3])
+
+    assert_equal false, invoice.is_paid_in_full?
   end
 
   def test_it_returns_total_dollar_amount_for_invoice
-    skip
-    se = SalesEngine.from_csv({
-      invoices: "./test/fixtures/invoices_sample.csv",
-      transactions: "./test/fixtures/transactions_sample.csv",
-      invoice_items: "./test/fixtures/invoice_items_sample.csv",
-      items: "./test/fixtures/items_sample.csv"
-    })
-    invoice = se.invoices.find_by_id(641)
+    ii = stub(unit_price: 1500,
+              quantity: 2)
+    ii_2 = stub(unit_price: 1000,
+               quantity: 2)
+    ii_3 = stub(unit_price: 500,
+               quantity: 4)
+    invoice.invoice_repo.stubs(:find_invoice_items_by_id).returns([ii, ii_2, ii_3])
 
-    assert_equal 0.429506e4, invoice.total
-    refute_equal 4.29506e4, invoice.total
+    assert_equal 7000, invoice.total
   end
 
 end
