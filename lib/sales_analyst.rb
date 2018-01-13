@@ -24,11 +24,11 @@ class SalesAnalyst
   end
 
   def number_of_items_per_merchant
-    se.grab_array_of_merchant_items
+    se.items_per_merchant
   end
 
   def number_of_invoices_per_merchant
-    se.grab_array_of_merchant_invoices
+    se.invoices_per_merchant
   end
 
   def item_price_standard_deviation
@@ -55,7 +55,7 @@ class SalesAnalyst
   end
 
   def invoice_mean
-    array = se.grab_array_of_merchant_invoices
+    array = number_of_invoices_per_merchant
     (array.inject(0) { |sum, x| sum += x } / array.size.to_f).round(2)
   end
 
