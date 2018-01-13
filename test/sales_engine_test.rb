@@ -31,7 +31,7 @@ class SalesEngineTest < Minitest::Test
     assert_instance_of TransactionRepository, se.transactions
   end
 
-  def test_it_returns_items_by_id
+  def test_it_returns_items_by_merchant_id
     items = se.find_item_by_merchant_id(12334195)
     nil_items = se.find_item_by_merchant_id(23423523)
 
@@ -44,13 +44,12 @@ class SalesEngineTest < Minitest::Test
   end
 
   def test_it_returns_merchants_by_id
-    skip
     merchant = se.find_merchant_by_id(12334195)
+    nil_merch = se.find_merchant_by_id(23423523)
 
     assert_instance_of Merchant, merchant
-    refute_instance_of Item, merchant
     assert merchant.id == 12334195
-    refute merchant.id == 12233431
+    assert_nil nil_merch
   end
 
   def test_it_returns_array_of_items_per_merchant
