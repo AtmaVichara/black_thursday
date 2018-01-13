@@ -94,11 +94,11 @@ class SalesEngineTest < Minitest::Test
   end
 
   def test_it_grabs_all_items
-    skip
     items = se.grab_all_items
 
-    assert items.all? { |item| item.class == Item }
-    refute items.all? { |item| item.class == Merchant }
+    items.each do |item|
+      assert_instance_of Item, item
+    end
   end
 
 end
