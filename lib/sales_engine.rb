@@ -57,7 +57,7 @@ class SalesEngine
     merchants.grab_array_of_items
   end
 
-  def grab_array_of_merchant_invoices
+  def invoices_per_merchant
     merchants.grab_array_of_invoices
   end
 
