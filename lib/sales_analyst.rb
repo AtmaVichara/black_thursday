@@ -24,7 +24,7 @@ class SalesAnalyst
   end
 
   def number_of_items_per_merchant
-    se.grab_array_of_merchant_items
+    se.items_per_merchant
   end
 
   def number_of_invoices_per_merchant

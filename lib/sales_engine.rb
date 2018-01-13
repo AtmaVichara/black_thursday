@@ -53,7 +53,7 @@ class SalesEngine
     merchants.find_by_id(id)
   end
 
-  def grab_array_of_merchant_items
+  def items_per_merchant
     merchants.grab_array_of_items
   end
 
