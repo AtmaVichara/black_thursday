@@ -61,6 +61,10 @@ class SalesEngine
     merchants.grab_array_of_invoices
   end
 
+  def find_invoices_by_customer_id(customer_id)
+    invoices.find_all_by_customer_id(customer_id)
+  end 
+
   def grab_all_merchants
     merchants.all
   end

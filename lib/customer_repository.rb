@@ -43,7 +43,7 @@ class CustomerRepository
   end
 
   def find_all_invoices_by_id(id)
-    se.invoices.find_all_by_customer_id(id)
+    se.find_invoices_by_customer_id(id)
   end
 
 end
