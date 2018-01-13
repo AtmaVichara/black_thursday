@@ -23,14 +23,11 @@ class InvoiceItemRepositoryTest < Minitest::Test
   end
 
   def test_it_returns_invoice_item_by_id
-    skip
     invoice_item = ir.find_by_id(4)
+    nil_item = ir.find_by_id(6890)
 
     assert_instance_of InvoiceItem, invoice_item
-    refute_instance_of InvoiceItemRepository, invoice_item
-    assert_equal 4, invoice_item.id
-    refute_equal 2, invoice_item.id
-    refute_equal "4", invoice_item.id
+    assert_nil nil_item
   end
 
   def test_it_returns_all_items_by_id
