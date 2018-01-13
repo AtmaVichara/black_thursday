@@ -22,6 +22,29 @@ class SalesEngineTest < Minitest::Test
     assert_instance_of SalesEngine, se
   end
 
+  def test_it_has_default_csvs
+    default = {items: './data/blanks/items_blank.csv',
+               merchants: './data/blanks/merchants_blank.csv',
+               invoices: './data/blanks/invoices_blank.csv',
+               invoice_items: './data/blanks/invoice_items_blank.csv',
+               customers: './data/blanks/customers_blank.csv',
+               transactions: './data/blanks/transactions_blank.csv'}
+
+    assert_equal se.default_csvs, default
+  end
+
+  def test_it_merges_into_default_csvs
+    new_csv = {items: './data/items.csv'}
+    merged_csvs = se.merge_in_given_csvs(new_csv)
+
+    assert_equal './data/items.csv', merged_csvs[:items]
+    assert_equal './data/blanks/merchants_blank.csv', merged_csvs[:merchants]
+    assert_equal './data/blanks/invoices_blank.csv', merged_csvs[:invoices]
+    assert_equal './data/blanks/invoice_items_blank.csv', merged_csvs[:invoice_items]
+    assert_equal './data/blanks/customers_blank.csv', merged_csvs[:customers]
+    assert_equal './data/blanks/transactions_blank.csv', merged_csvs[:transactions]
+  end
+
   def test_it_has_attributes
     assert_instance_of InvoiceRepository, se.invoices
     assert_instance_of ItemRepository, se.items
