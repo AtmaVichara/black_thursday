@@ -53,11 +53,10 @@ class SalesEngineTest < Minitest::Test
   end
 
   def test_it_returns_array_of_items_per_merchant
-    skip
-    items_per = se.grab_array_of_merchant_items
+    items_per = se.items_per_merchant
 
     assert_equal 7, items_per.count
-    refute_equal 23, items_per.count
+    assert_equal [1, 3, 1, 10, 2, 3, 1], items_per
   end
 
   def test_it_grabs_all_merchants
