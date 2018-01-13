@@ -59,6 +59,13 @@ class SalesEngineTest < Minitest::Test
     assert_equal [1, 3, 1, 10, 2, 3, 1], items_per
   end
 
+  def test_it_returns_array_of_invoices_per_merchant
+    invoices_per = se.invoices_per_merchant
+
+    assert_equal 7, invoices_per.count
+    assert_equal [8, 2, 1, 1, 1, 1, 1], invoices_per
+  end
+
   def test_it_grabs_all_merchants
     skip
     merchants = se.grab_all_merchants
