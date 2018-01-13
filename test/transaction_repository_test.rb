@@ -3,15 +3,16 @@ require_relative "../lib/transaction_repository"
 
 class TransactionRepositoryTest < Minitest::Test
 
-  def test_it_exists
-    transaction = TransactionRepository.new("./test/fixtures/transactions_sample.csv", "se")
+  def setup
+    parent = ('sales_engine')
+    transaction = TransactionRepository.new("./test/fixtures/transactions_sample.csv", parent)
+  end
 
+  def test_it_exists
     assert_instance_of TransactionRepository, transaction
   end
 
   def test_transactions_is_filled
-    transaction = TransactionRepository.new("./test/fixtures/transactions_sample.csv", "se")
-
     assert_instance_of Transaction, transaction.transactions.first
     assert_instance_of Transaction, transaction.transactions.last
   end
