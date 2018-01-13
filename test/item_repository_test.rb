@@ -12,9 +12,15 @@ class ItemRepositoryTest < Minitest::Test
     @item = ItemRepository.new(path, mock('SalesEngine'))
   end
 
-  def test_all_items_is_returned
+  def test_it_exists
     assert_instance_of ItemRepository, item
+  end
+
+  def test_all_items_is_returned
     assert_equal 25, item.items.count
+    item.all.each do |i|
+      assert_instance_of Item, i
+    end
   end
 
   def test_grabs_item_by_name
@@ -26,7 +32,5 @@ class ItemRepositoryTest < Minitest::Test
     assert_equal 3, item.find_by_name.count
     assert_equal [item_name_1, item_name_2, item_name_3], item.find_by_name
   end
-
-
 
 end
