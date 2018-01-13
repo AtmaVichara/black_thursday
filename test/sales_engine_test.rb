@@ -101,4 +101,12 @@ class SalesEngineTest < Minitest::Test
     end
   end
 
+  def test_it_grabs_all_invoices
+    invoices = se.grab_all_invoices
+
+    invoices.each do |invoice|
+      assert_instance_of Invoice, invoice
+    end
+  end
+
 end
