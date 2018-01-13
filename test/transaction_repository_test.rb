@@ -3,26 +3,26 @@ require_relative "../lib/transaction_repository"
 
 class TransactionRepositoryTest < Minitest::Test
 
-  attr_reader :transaction
+  attr_reader :tr_repo
 
   def setup
     parent = ('sales_engine')
-    @transaction = TransactionRepository.new("./test/fixtures/transactions_sample.csv", parent)
+    @tr_repo = TransactionRepository.new("./test/fixtures/transactions_sample.csv", parent)
   end
 
   def test_it_exists
-    assert_instance_of TransactionRepository, transaction
+    assert_instance_of TransactionRepository, tr_repo
   end
 
   def test_transactions_all_and_transactions_is_filled
-    transaction.all.each do |tr|
+    tr_repo.all.each do |tr|
       assert_instance_of Transaction, tr
     end
   end
 
   def test_it_returns_transaction_by_id
-    tr = transaction.find_by_id(4)
-    nil_tr = transaction.find_by_id(34)
+    tr = tr_repo.find_by_id(4)
+    nil_tr = tr_repo.find_by_id(34)
 
     assert_instance_of Transaction, tr
     assert_equal 4, tr.id
@@ -30,12 +30,15 @@ class TransactionRepositoryTest < Minitest::Test
   end
 
   def test_it_finds_all_by_invoice_id
-    skip
-    transaction = TransactionRepository.new("./test/fixtures/transactions_sample.csv", "se")
-    found_id = transaction.find_all_by_invoice_id(2179)
+    transactions = tr_repo.find_all_by_invoice_id(2179)
+    nil_tr = tr_repo.find_all_by_invoice_id(23422)
 
-    assert_equal 2, found_id.count
-    refute_equal 1, found_id.count
+    assert_equal 2, transactions.count
+    transactions.each do |tr|
+      assert_instance_of Transaction, tr
+      assert_equal 2179, tr.invoice_id
+    end
+    assert_equal [], nil_tr
   end
 
   def test_it_finds_all_by_card_number
