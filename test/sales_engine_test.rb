@@ -32,15 +32,15 @@ class SalesEngineTest < Minitest::Test
   end
 
   def test_it_returns_items_by_id
-    skip
     items = se.find_item_by_merchant_id(12334195)
+    nil_items = se.find_item_by_merchant_id(23423523)
 
-    assert items.all? { |item| item.class == Item }
-    refute items.all? { |item| item.class == Merchant }
-    assert items.all? { |item| item.merchant_id == 12334195 }
-    refute items.all? { |item| item.merchant_id == 12332398 }
     assert_equal 10, items.count
-    refute_equal 23, items.count
+    items.each do |i|
+      assert_instance_of Item, i
+      assert_equal 12334195, i.merchant_id
+    end
+    assert_equal [], nil_items
   end
 
   def test_it_returns_merchants_by_id
