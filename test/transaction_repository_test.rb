@@ -42,12 +42,15 @@ class TransactionRepositoryTest < Minitest::Test
   end
 
   def test_it_finds_all_by_card_number
-    skip
-    transaction = TransactionRepository.new("./test/fixtures/transactions_sample.csv", "se")
-    found_id = transaction.find_all_by_credit_card_number(4068631943231473)
+    transactions = tr_repo.find_all_by_credit_card_number(4068631943231473)
+    nil_tr = tr_repo.find_all_by_credit_card_number(4068624534253334)
 
-    assert_equal 2, found_id.count
-    refute_equal 1, found_id.count
+    assert_equal 2, transactions.count
+    transactions.each do |tr|
+      assert_instance_of Transaction, tr
+      assert_equal 4068631943231473, tr.credit_card_number
+    end
+    assert_equal [], nil_tr
   end
 
   def test_it_finds_all_by_result
