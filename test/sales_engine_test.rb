@@ -78,6 +78,13 @@ class SalesEngineTest < Minitest::Test
     assert_equal [], no_invoices
   end
 
+  def test_it_returns_invoices_by_invoice_id
+    invoice = se.find_invoices_by_invoice_id(2821)
+
+    assert_instance_of Invoice, invoice
+    assert_equal 2821, invoice.id
+  end
+
   def test_it_grabs_all_merchants
     skip
     merchants = se.grab_all_merchants
