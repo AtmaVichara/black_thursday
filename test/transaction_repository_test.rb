@@ -3,9 +3,11 @@ require_relative "../lib/transaction_repository"
 
 class TransactionRepositoryTest < Minitest::Test
 
+  attr_reader :transaction
+
   def setup
     parent = ('sales_engine')
-    transaction = TransactionRepository.new("./test/fixtures/transactions_sample.csv", parent)
+    @transaction = TransactionRepository.new("./test/fixtures/transactions_sample.csv", parent)
   end
 
   def test_it_exists
@@ -13,20 +15,22 @@ class TransactionRepositoryTest < Minitest::Test
   end
 
   def test_transactions_all_and_transactions_is_filled
-    transactions.all.each do |tr|
-      assert_instance_of TransactionRepository, tr
-    end 
+    transaction.all.each do |tr|
+      assert_instance_of Transaction, tr
+    end
   end
 
-  def test_it_returns_correct_id
-    transaction = TransactionRepository.new("./test/fixtures/transactions_sample.csv", "se")
-    found_id = transaction.find_by_id(4)
+  def test_it_returns_transaction_by_id
+    tr = transaction.find_by_id(4)
+    nil_tr = transaction.find_by_id(34)
 
-    assert_equal 4048033451067370, found_id.credit_card_number
-    assert_equal 4126, found_id.invoice_id
+    assert_instance_of Transaction, tr
+    assert_equal 4, tr.id
+    assert_nil nil_tr
   end
 
   def test_it_finds_all_by_invoice_id
+    skip
     transaction = TransactionRepository.new("./test/fixtures/transactions_sample.csv", "se")
     found_id = transaction.find_all_by_invoice_id(2179)
 
@@ -35,6 +39,7 @@ class TransactionRepositoryTest < Minitest::Test
   end
 
   def test_it_finds_all_by_card_number
+    skip
     transaction = TransactionRepository.new("./test/fixtures/transactions_sample.csv", "se")
     found_id = transaction.find_all_by_credit_card_number(4068631943231473)
 
@@ -43,6 +48,7 @@ class TransactionRepositoryTest < Minitest::Test
   end
 
   def test_it_finds_all_by_result
+    skip
     transaction = TransactionRepository.new("./test/fixtures/transactions_sample.csv", "se")
     found_id = transaction.find_all_by_result("success")
 
@@ -51,6 +57,7 @@ class TransactionRepositoryTest < Minitest::Test
   end
 
   def test_it_finds_invoices_by_id
+    skip
     se = SalesEngine.from_csv({
       :merchants => "./test/fixtures/merchants_sample.csv",
       :invoices => "./test/fixtures/invoices_sample.csv",
