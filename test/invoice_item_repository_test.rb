@@ -43,11 +43,15 @@ class InvoiceItemRepositoryTest < Minitest::Test
   end
 
   def test_it_returns_all_invoice_items_by_invoice_id
-    skip
     invoice_items = ir.find_all_by_invoice_id(1)
+    nil_items = ir.find_all_by_invoice_id(23)
 
-    assert invoice_items.all? { |ii| ii.class == InvoiceItem }
-    assert invoice_items.all? { |ii| ii.invoice_id == 1 }
+    invoice_items.each do |invoice_item|
+      assert_instance_of InvoiceItem, invoice_item
+      assert_equal 1, invoice_item.invoice_id
+    end
+    assert_equal [], nil_items
+    assert_nil nil_items.first
   end
 
 end
