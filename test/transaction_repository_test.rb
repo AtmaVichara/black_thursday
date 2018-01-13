@@ -12,9 +12,10 @@ class TransactionRepositoryTest < Minitest::Test
     assert_instance_of TransactionRepository, transaction
   end
 
-  def test_transactions_is_filled
-    assert_instance_of Transaction, transaction.transactions.first
-    assert_instance_of Transaction, transaction.transactions.last
+  def test_transactions_all_and_transactions_is_filled
+    transactions.all.each do |tr|
+      assert_instance_of TransactionRepository, tr
+    end 
   end
 
   def test_it_returns_correct_id
