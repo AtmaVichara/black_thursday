@@ -66,6 +66,18 @@ class SalesEngineTest < Minitest::Test
     assert_equal [8, 2, 1, 1, 1, 1, 1], invoices_per
   end
 
+  def test_it_find_invoices_by_customer_id
+    invoices = se.find_invoices_by_customer_id(157)
+    no_invoices = se.find_invoices_by_customer_id(3)
+
+    assert_equal 2, invoices.count
+    invoices.each do |i|
+      assert_instance_of Invoice, i
+      assert_equal 157, i.customer_id
+    end
+    assert_equal [], no_invoices
+  end
+
   def test_it_grabs_all_merchants
     skip
     merchants = se.grab_all_merchants
