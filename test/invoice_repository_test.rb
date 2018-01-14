@@ -4,24 +4,20 @@ require_relative '../lib/sales_engine'
 
 class InvoiceRepositoryTest < Minitest::Test
 
+  attr_reader: invoice_repo
+
   def setup
-    @invoice = InvoiceRepository.new("./test/fixtures/invoices_sample.csv", "se")
+    parent = mock('sales_engine')
+    @invoice_repo = InvoiceRepository.new("./test/fixtures/invoices_sample.csv", parent)
   end
 
-
   def test_it_exists
-    skip
-    invoice = InvoiceRepository.new("./test/fixtures/invoices_sample.csv", "se")
-
     assert_instance_of InvoiceRepository, invoice
   end
 
   def test_it_returns_all_invoices
     skip
-    invoices = InvoiceRepository.new("./test/fixtures/invoices_sample.csv", "se")
-
     assert_equal 19, invoices.all.count
-    refute_equal "19", invoices.all.count
   end
 
   def test_it_finds_by_id
