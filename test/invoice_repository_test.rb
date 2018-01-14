@@ -10,12 +10,14 @@ class InvoiceRepositoryTest < Minitest::Test
 
 
   def test_it_exists
+    skip
     invoice = InvoiceRepository.new("./test/fixtures/invoices_sample.csv", "se")
 
     assert_instance_of InvoiceRepository, invoice
   end
 
   def test_it_returns_all_invoices
+    skip
     invoices = InvoiceRepository.new("./test/fixtures/invoices_sample.csv", "se")
 
     assert_equal 19, invoices.all.count
@@ -23,6 +25,7 @@ class InvoiceRepositoryTest < Minitest::Test
   end
 
   def test_it_finds_by_id
+    skip
     invoices = InvoiceRepository.new("./test/fixtures/invoices_sample.csv", "se")
     invoice_ticket1 = invoices.find_by_id(641)
     invoice_ticket2 = invoices.find_by_id(819)
@@ -35,6 +38,7 @@ class InvoiceRepositoryTest < Minitest::Test
   end
 
   def test_it_finds_all_customers_id
+    skip
     invoices = InvoiceRepository.new("./test/fixtures/invoices_sample.csv", "se")
     invoice_ticket = invoices.find_all_by_customer_id(528)
 
@@ -42,6 +46,7 @@ class InvoiceRepositoryTest < Minitest::Test
   end
 
   def test_it_finds_all_merchant_id
+    skip
     invoices = InvoiceRepository.new("./test/fixtures/invoices_sample.csv", "se")
     invoice_ticket = invoices.find_all_by_merchant_id(12334141)
 
@@ -49,6 +54,7 @@ class InvoiceRepositoryTest < Minitest::Test
   end
 
   def test_it_finds_all_invoice_id
+    skip
     invoices = InvoiceRepository.new("./test/fixtures/invoices_sample.csv", "se")
     invoice_ticket = invoices.find_all_by_invoice_id(1053)
 
@@ -56,6 +62,7 @@ class InvoiceRepositoryTest < Minitest::Test
   end
 
   def test_it_finds_all_by_status
+    skip
     invoices = InvoiceRepository.new("./test/fixtures/invoices_sample.csv", "se")
     invoice_ticket = invoices.find_all_by_status(:shipped)
 
@@ -63,6 +70,7 @@ class InvoiceRepositoryTest < Minitest::Test
   end
 
   def test_it_finds_merchant_by_invoice
+    skip
     se = SalesEngine.from_csv({
       invoices: "./test/fixtures/invoices_sample.csv",
       invoice_items: "./test/fixtures/invoice_items_sample.csv",
@@ -77,6 +85,7 @@ class InvoiceRepositoryTest < Minitest::Test
   end
 
   def test_it_grabs_array_of_invoices
+    skip
     se = SalesEngine.from_csv({
       :merchants => "./test/fixtures/merchants_sample.csv",
       :invoices => "./test/fixtures/invoices_sample.csv"
@@ -88,6 +97,7 @@ class InvoiceRepositoryTest < Minitest::Test
   end
 
   def test_it_grabs_all_items
+    skip
     se = SalesEngine.from_csv({
       invoices: "./test/fixtures/invoices_sample.csv",
       invoice_items: "./test/fixtures/invoice_items_sample.csv",

@@ -38,7 +38,7 @@ class TransactionTest < Minitest::Test
     invoice_2 = mock("4126")
     invoice_3 = mock("290")
 
-    transaction.transaction_repo.stubs(:find_invoice_by_id).returns([invoice_1, invoice_2, invoice_3])
+    transaction.transaction_repo.stubs(:find_invoice_by_invoice_id).returns([invoice_1, invoice_2, invoice_3])
 
     assert_equal [invoice_1, invoice_2, invoice_3], transaction.invoice
     assert_equal 3, transaction.invoice.count

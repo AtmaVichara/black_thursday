@@ -86,7 +86,7 @@ class SalesAnalyst
     double_deviation = (average_invoices_per_merchant_standard_deviation * 2)
     mean = average_invoices_per_merchant + double_deviation
     se.grab_all_merchants.find_all do |merchant|
-      merchant if merchant.invoices.count > mean
+      merchant.invoices.count > mean
     end
   end
 
@@ -94,7 +94,7 @@ class SalesAnalyst
     double_deviation = (average_invoices_per_merchant_standard_deviation * 2)
     mean = average_invoices_per_merchant - double_deviation
     se.grab_all_merchants.find_all do |merchant|
-      merchant if merchant.invoices.count < mean
+      merchant.invoices.count < mean
     end
   end
 
@@ -182,7 +182,7 @@ class SalesAnalyst
   end
 
   def revenue_by_merchant(merchant_id)
-    se.find_merchant_by_id(merchant_id).revenue
+    se.find_merchant_by_id(merchant_id).revenue if !se.find_merchant_by_id(merchant_id).nil?
   end
 
   def merchants_with_only_one_item_registered_in_month(month_name)
@@ -220,7 +220,7 @@ class SalesAnalyst
   def most_sold_item_for_merchant(merchant_id)
     grab_most_sold_items(merchant_id).map do |item_id|
       se.items.find_by_id(item_id)
-    end
+    end.compact
   end
 
   def group_items_to_revenue(merchant_id)

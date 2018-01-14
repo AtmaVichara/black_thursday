@@ -16,7 +16,7 @@ class InvoiceItemRepositoryTest < Minitest::Test
   end
 
   def test_invoice_items_is_filled
-    assert_equal 21, ir.invoice_items.count
+    assert_equal 22, ir.invoice_items.count
     ir.all.each do |invoice_item|
       assert_instance_of InvoiceItem, invoice_item
     end
