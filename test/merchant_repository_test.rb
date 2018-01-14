@@ -41,11 +41,13 @@ class MerchantRepositoryTest < Minitest::Test
   end
 
   def test_it_returns_matches_for_all_by_name
-    skip
-    found_names = merchant.find_all_by_name("an")
+    found_merchants = merchant_repo.find_all_by_name("an")
 
-    assert_equal 1, found_names.count
-    assert_includes found_names.first.name.downcase, "an"
+    assert_equal 1, found_merchants.count
+    found_merchants.each do |merchant|
+      assert_instance_of Merchant, merchant
+      assert_includes found_merchants.first.name.downcase, "an"
+    end
   end
 
   def test_it_returns_items_for_a_merchant
