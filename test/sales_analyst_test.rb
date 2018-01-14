@@ -114,33 +114,26 @@ class SalesAnalystTest < Minitest::Test
   end
 
   def test_it_returns_array_of_invoices_per_day
-    skip
     assert_equal [2, 6, 6, 1, 2, 1, 1], sales_analyst.invoices_per_day
-    refute_equal [], sales_analyst.invoices_per_day
-    refute_equal [5, 3, 3, 1, 1, 1, 1], sales_analyst.invoices_per_day
   end
 
   def test_average_invoices_per_day_standard_deviation
-    skip
     assert_equal 2.68, sales_analyst.average_invoices_per_merchant_standard_deviation
-    refute_equal 1.29, sales_analyst.average_invoices_per_merchant_standard_deviation
   end
 
   def test_it_returns_total_revenue_by_date
-    skip
     assert_equal 0.2023211e5, sales_analyst.total_revenue_by_date(Time.parse('2009-12-09'))
-    refute_equal 'hopefully no strings', sales_analyst.total_revenue_by_date(Time.parse('2009-12-09'))
   end
 
   def test_it_grabs_invoice_by_date
-    skip
     invoice = sales_analyst.grab_invoice_by_date(Time.parse('2009-12-09'))
 
+    assert_instance_of Invoice, invoice
     assert_equal 3, invoice.first.id
     assert_equal (Time.parse('2009-12-09')).to_i, invoice.first.created_at.to_i
   end
 
-  def test_it_grabs_invoice_by_date
+  def test_it_grabs_invoice_item_by_date
     skip
     invoice_items = sales_analyst.grab_invoice_items_by_invoice_date(Time.parse('2009-12-09'))
 
