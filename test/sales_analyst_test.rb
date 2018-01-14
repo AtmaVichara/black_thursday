@@ -186,21 +186,19 @@ class SalesAnalystTest < Minitest::Test
     sales_analyst.merchants_with_only_one_item_registered_in_month("June").each do |merchant|
       assert_instance_of Merchant, merchant
       assert_equal "June", merchant.created_at.strftime("%B")
-    end 
+    end
   end
 
-  def test_it_grab_invoices_from_merchants
-    skip
+  def test_it_grab_invoices_items_from_merchants
     paid_invoices = sales_analyst.grab_paid_invoice_items_from_merchants(12334141)
 
     assert_equal 14, paid_invoices.count
-    assert_equal 14, paid_invoices.count
-    assert paid_invoices.all? { |invoice| invoice.class == InvoiceItem }
-    refute paid_invoices.all? { |invoice| invoice.class == Invoice }
+    paid_invoices.each do |ii|
+      assert_instance_of InvoiceItem, ii
+    end
   end
 
   def test_it_groups_items_to_invoice_attributes
-    skip
     grouped_attributes = sales_analyst.group_items_to_invoice_attributes(12334141)
 
     refute_equal 10, grouped_attributes.count
