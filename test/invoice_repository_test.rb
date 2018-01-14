@@ -62,7 +62,7 @@ class InvoiceRepositoryTest < Minitest::Test
     invoices.each do |invoice|
       assert_instance_of Invoice, invoice
       assert_equal 1053, invoice.id
-    end 
+    end
   end
 
   def test_it_finds_all_by_status
@@ -94,30 +94,14 @@ class InvoiceRepositoryTest < Minitest::Test
     assert_equal merchant, invoice_repo.find_merchant_by_merchant_id(3)
   end
 
-  def test_it_grabs_array_of_invoices
-    skip
-    se = SalesEngine.from_csv({
-      :merchants => "./test/fixtures/merchants_sample.csv",
-      :invoices => "./test/fixtures/invoices_sample.csv"
-    })
-    found_merchants = se.merchants.grab_array_of_invoices
-
-    assert_equal [8, 2, 1, 1, 1, 1, 1], found_merchants
-    assert_equal 7, found_merchants.count
-  end
-
   def test_it_grabs_all_items
-    skip
-    se = SalesEngine.from_csv({
-      invoices: "./test/fixtures/invoices_sample.csv",
-      invoice_items: "./test/fixtures/invoice_items_sample.csv",
-      customers: "./test/fixtures/customers_sample.csv",
-      merchants: "./test/fixtures/merchants_sample.csv",
-      items: "./test/fixtures/items_sample.csv"
-    })
-    result = se.invoices.grab_all_items
-
-    assert_equal 25, result.count
+    items_1 = mock('items1')
+    items_2 = mock('items2')
+    items_3 = mock('items3')
+    invoice_repo.se.stubs(:grab_all_items).returns([item_1, item_2, item_3])
+    
+    assert_equal 3, invoice_repo.grab_all_items
+    assert_equal [item_1, item_2, item_3], invoice_repo.grab_all_items
   end
 
 end
