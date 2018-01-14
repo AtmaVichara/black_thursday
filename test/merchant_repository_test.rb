@@ -51,21 +51,12 @@ class MerchantRepositoryTest < Minitest::Test
   end
 
   def test_it_returns_items_for_a_merchant
-    skip
-    se = SalesEngine.from_csv({
-      :items     => "./test/fixtures/items_sample.csv",
-      :merchants => "./test/fixtures/merchants_sample.csv",
-    })
+    item_1 = mock('item')
+    item_2 = mock('item')
+    item_3 = mock('item')
+    merchant_repo.se.stubs(:find_item_by_merchant_id).returns([item_1, item_2, item_3])
 
-    merchants = se.merchants
-    merchant_id = 12334185
-    found_id = merchants.find_item(merchant_id)
-
-    found_id.each do |item|
-      assert_instance_of Item, item
-    end
-    refute_equal 5, found_id.count
-    assert_equal 3, found_id.count
+    assert_equal [item_1, item_2, item_3], merchant_repo.find_item(3)
   end
 
   def test_it_grabs_array_of_items
