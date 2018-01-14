@@ -49,6 +49,10 @@ class SalesEngine
     items.find_item(id)
   end
 
+  def find_item_by_id(item_id) #test
+    items.find_by_id(item_id)
+  end
+
   def find_merchant_by_id(id)
     merchants.find_by_id(id)
   end
