@@ -25,37 +25,32 @@ class SalesAnalystTest < Minitest::Test
 
   def test_it_returns_average
     assert_equal 3.57, sales_analyst.average_items_per_merchant
-    refute_equal "3.57", sales_analyst.average_items_per_merchant
     refute_equal 0.43, sales_analyst.average_items_per_merchant
   end
 
   def test_it_returns_item_price_standard_deviation
     assert_equal 235.37, sales_analyst.item_price_standard_deviation
-    refute_equal "235.37", sales_analyst.item_price_standard_deviation
-    refute_equal 300, sales_analyst.item_price_standard_deviation
   end
 
   def test_it_returns_standard_deviation
     assert_equal 3.27, sales_analyst.average_items_per_merchant_standard_deviation
-    refute_equal 3.20, sales_analyst.average_items_per_merchant_standard_deviation
   end
 
   def test_it_returns_array_of_item_totals_for_merchants
-    assert_equal 7, sales_analyst.number_of_items_per_merchant.count
-    refute_equal 4, sales_analyst.number_of_items_per_merchant.count
+    assert_equal [1, 3, 1, 10, 2, 3, 1], sales_analyst.number_of_items_per_merchant
   end
 
   def test_it_returns_merchants_with_highest_item_count
     assert_equal 1, sales_analyst.merchants_with_high_item_count.count
-    refute_equal 10, sales_analyst.merchants_with_high_item_count.count
+    assert_instance_of Merchant, sales_analyst.merchants_with_high_item_count.first
   end
 
-  def test_it_returns_top_merchants_by_invoice_count
+  def test_it_returns_top_merchants_by_invoice_count # Fixtures Need more Data
     assert_equal 0, sales_analyst.top_merchants_by_invoice_count.count
     refute_equal 3, sales_analyst.top_merchants_by_invoice_count.count
   end
 
-  def test_it_returns_bottom_merchants_by_invoice_count
+  def test_it_returns_bottom_merchants_by_invoice_count # Fixtures Need more Data
     assert_equal 0, sales_analyst.bottom_merchants_by_invoice_count.count
     refute_equal 3, sales_analyst.bottom_merchants_by_invoice_count.count
   end
@@ -66,12 +61,10 @@ class SalesAnalystTest < Minitest::Test
 
   def test_it_returns_average_invoices_per_merchant
     assert_equal 2.71, sales_analyst.average_invoices_per_merchant
-    refute_equal 2.00, sales_analyst.average_invoices_per_merchant
   end
 
   def test_it_returns_standard_deviation_for_invoices
     assert_equal 2.68, sales_analyst.average_invoices_per_merchant_standard_deviation
-    refute_equal 3.20, sales_analyst.average_invoices_per_merchant_standard_deviation
   end
 
   def test_it_returns_status_of_invoices_as_percentage
@@ -82,6 +75,14 @@ class SalesAnalystTest < Minitest::Test
 
   def test_it_returns_group_invoices_by_day
     assert_equal 7, sales_analyst.group_invoices_by_day.count
+    sales_analyst.group_invoices_by_day.values.each do |value|
+      value.each do |v|
+        assert_instance_of Invoice, v
+      end
+    end
+    sales_analyst.group_invoices_by_day.keys.each do |key|
+      assert key == "Sunday" || "Monday" || "Wednesday" || "Thursday" || "Friday" || "Tuesday" || "Saturday"
+    end
   end
 
   def test_it_returns_average_invoices_per_day
