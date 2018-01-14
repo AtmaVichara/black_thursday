@@ -169,9 +169,8 @@ class SalesAnalystTest < Minitest::Test
   end
 
   def test_it_returns_merchants_revenue
-    skip
     assert_equal 73407, sales_analyst.revenue_by_merchant(12334141).to_i
-    refute_equal 3244244233, sales_analyst.revenue_by_merchant(12334141)
+    assert_equal 0, sales_analyst.revenue_by_merchant(222222222).to_i
   end
 
   def test_it_grabs_merchants_ranked_by_revenue
