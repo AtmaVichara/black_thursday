@@ -45,11 +45,11 @@ class MerchantRepository
     se.find_item_by_merchant_id(id)
   end
 
-  def grab_array_of_items
+  def items_per_merchant
     merchants.map { |merchant| merchant.items.count }
   end
 
-  def grab_array_of_invoices
+  def invoices_per_merchant
     merchants.map { |merchant| merchant.invoices.count }
   end
 
