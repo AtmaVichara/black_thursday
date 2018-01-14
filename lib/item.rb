@@ -21,7 +21,7 @@ class Item
     @merchant_id = item[:merchant_id].to_i
     @item_repo   = parent
  end
-
+ 
   def invoice_items
     item_repo.find_invoice_items_by_id(@id)
   end
