@@ -159,13 +159,13 @@ class SalesAnalystTest < Minitest::Test
     end
   end
 
-  def test_it_grabs_merchants_with_pending_invoices
+  def test_it_grabs_merchants_with_pending_invoices # Add more data for fixtures
     skip
-    assert sales_analyst.merchants_with_pending_invoices.all? do |merchant|
-       merchant.class == Merchant
-    end
     assert_equal 7, sales_analyst.merchants_with_pending_invoices.count
-    assert_equal 12334141, sales_analyst.merchants_with_pending_invoices.first.id
+    assert sales_analyst.merchants_with_pending_invoices.each do |merchant|
+       assert_instance_of Merchant, merchant
+    end
+    assert_equal "jejum", sales_analyst.merchants_with_pending_invoices.first.name
   end
 
   def test_it_returns_merchants_revenue
