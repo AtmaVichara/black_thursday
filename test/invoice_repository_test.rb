@@ -23,16 +23,12 @@ class InvoiceRepositoryTest < Minitest::Test
   end
 
   def test_it_finds_by_id
-    skip
-    invoices = InvoiceRepository.new("./test/fixtures/invoices_sample.csv", "se")
-    invoice_ticket1 = invoices.find_by_id(641)
-    invoice_ticket2 = invoices.find_by_id(819)
-    invoice_ticket3 = invoices.find_by_id(4800)
+    invoice = invoice_repo.find_by_id(641)
+    nil_invoice = invoice_repo.find_by_id(2342)
 
-    assert_equal 12334141, invoice_ticket1.merchant_id
-    refute_equal "12334141", invoice_ticket1.merchant_id
-    assert_equal 12334141, invoice_ticket2.merchant_id
-    assert_equal 12334183, invoice_ticket3.merchant_id
+    assert_instance_of Invoice, invoice
+    assert_equal 641, invoice.id
+    assert_nil nil_invoice
   end
 
   def test_it_finds_all_customers_id
