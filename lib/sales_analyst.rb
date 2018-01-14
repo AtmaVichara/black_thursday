@@ -182,7 +182,7 @@ class SalesAnalyst
   end
 
   def revenue_by_merchant(merchant_id)
-    se.find_merchant_by_id(merchant_id).revenue
+    se.find_merchant_by_id(merchant_id).revenue if !se.find_merchant_by_id(merchant_id).nil?
   end
 
   def merchants_with_only_one_item_registered_in_month(month_name)
