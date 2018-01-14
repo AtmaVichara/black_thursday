@@ -24,16 +24,16 @@ class SalesAnalystTest < Minitest::Test
   end
 
   def test_it_returns_average
-    assert_equal 3.57, sales_analyst.average_items_per_merchant
+    assert_equal 3.71, sales_analyst.average_items_per_merchant
     refute_equal 0.43, sales_analyst.average_items_per_merchant
   end
 
   def test_it_returns_item_price_standard_deviation
-    assert_equal 235.37, sales_analyst.item_price_standard_deviation
+    assert_equal 230.66, sales_analyst.item_price_standard_deviation
   end
 
   def test_it_returns_standard_deviation
-    assert_equal 3.27, sales_analyst.average_items_per_merchant_standard_deviation
+    assert_equal 3.3, sales_analyst.average_items_per_merchant_standard_deviation
   end
 
   def test_it_returns_array_of_item_totals_for_merchants
@@ -221,11 +221,11 @@ class SalesAnalystTest < Minitest::Test
   end
 
   def test_it_grabs_most_sold_item_for_merchant
-    skip
     most_sold = sales_analyst.most_sold_item_for_merchant(12334141)
 
-    binding.pry
     assert_equal 1, most_sold.count
+    assert_instance_of Item, most_sold.first
+    assert_equal "bracciale rigido margherite", most_sold.first.name
   end
 
   def test_it_groups_items_to_revenue
