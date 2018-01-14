@@ -143,18 +143,20 @@ class SalesAnalystTest < Minitest::Test
     end
   end
 
-  def test_it_returns_top_earners
+  def test_it_returns_top_earners # Add more data for fixtures
     skip
-    assert sales_analyst.top_revenue_earners.all? { |merch| merch.class == Merchant }
     assert_equal 7, sales_analyst.top_revenue_earners.count
-    assert_equal 12334141, sales_analyst.top_revenue_earners.first.id
+    sales_analyst.top_revenue_earners.each do |merchant|
+      assert_instance_of Merchant, merchant
+    end
   end
 
   def test_it_grabs_merchants_with_only_one_item
-    skip
     assert_equal 3, sales_analyst.merchants_with_only_one_item.count
-    refute_equal 1, sales_analyst.merchants_with_only_one_item.count
-    assert sales_analyst.merchants_with_only_one_item.all? { |merch| merch.class == Merchant }
+    sales_analyst.merchants_with_only_one_item.each do |merchant|
+      assert_instance_of Merchant, merchant
+      assert_equal 1, merchant.items.count
+    end
   end
 
   def test_it_grabs_merchants_with_pending_invoices
