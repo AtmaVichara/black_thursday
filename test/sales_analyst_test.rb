@@ -169,7 +169,7 @@ class SalesAnalystTest < Minitest::Test
   end
 
   def test_it_returns_merchants_revenue
-    assert_equal 73407, sales_analyst.revenue_by_merchant(12334141).to_i
+    assert_equal 88208, sales_analyst.revenue_by_merchant(12334141).to_i
     assert_equal 0, sales_analyst.revenue_by_merchant(222222222).to_i
   end
 
@@ -192,7 +192,7 @@ class SalesAnalystTest < Minitest::Test
   def test_it_grab_invoices_items_from_merchants
     paid_invoices = sales_analyst.grab_paid_invoice_items_from_merchants(12334141)
 
-    assert_equal 14, paid_invoices.count
+    assert_equal 16, paid_invoices.count
     paid_invoices.each do |ii|
       assert_instance_of InvoiceItem, ii
     end
@@ -201,7 +201,7 @@ class SalesAnalystTest < Minitest::Test
   def test_it_groups_items_to_invoice_attributes
     grouped_attributes = sales_analyst.group_items_to_invoice_attributes(12334141)
 
-    assert_equal 5, grouped_attributes.count
+    assert_equal 6, grouped_attributes.count
     assert_equal [263418403, [7, 0.5384e3]], grouped_attributes.first
     assert_instance_of Hash, grouped_attributes
     grouped_attributes.keys.each do |k|
@@ -213,18 +213,18 @@ class SalesAnalystTest < Minitest::Test
   end
 
   def test_it_grabs_most_sold_items
-    skip
     most_sold = sales_analyst.grab_most_sold_items(12334141)
 
-    assert_equal 1, most_sold.count
-    assert_equal 263415463, most_sold.first
-    refute_equal 22335415463, most_sold.first
+    refute_equal [], most_sold
+    assert_equal 2, most_sold.count
+    assert_equal [263465463, 263415463], most_sold
   end
 
   def test_it_grabs_most_sold_item_for_merchant
     skip
     most_sold = sales_analyst.most_sold_item_for_merchant(12334141)
 
+    binding.pry
     assert_equal 1, most_sold.count
   end
 
