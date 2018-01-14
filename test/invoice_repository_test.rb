@@ -94,13 +94,20 @@ class InvoiceRepositoryTest < Minitest::Test
     assert_equal merchant, invoice_repo.find_merchant_by_merchant_id(3)
   end
 
+  def test_it_finds_item_by_item_id
+    item = mock('item')
+    invoice_repo.se.stubs(:find_item_by_id).returns(item)
+
+    assert_equal item, invoice_repo.find_item_by_id(4)
+  end
+
   def test_it_grabs_all_items
-    items_1 = mock('items1')
-    items_2 = mock('items2')
-    items_3 = mock('items3')
+    item_1 = mock('items1')
+    item_2 = mock('items2')
+    item_3 = mock('items3')
     invoice_repo.se.stubs(:grab_all_items).returns([item_1, item_2, item_3])
-    
-    assert_equal 3, invoice_repo.grab_all_items
+
+    assert_equal 3, invoice_repo.grab_all_items.count
     assert_equal [item_1, item_2, item_3], invoice_repo.grab_all_items
   end
 

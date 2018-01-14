@@ -71,7 +71,7 @@ class InvoiceRepository
   end
 
   def find_item_by_id(item_id)
-    se.items.find_by_id(item_id)
+    se.find_item_by_id(item_id)
   end
 
   def grab_all_items
