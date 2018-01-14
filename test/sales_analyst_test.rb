@@ -186,7 +186,7 @@ class SalesAnalystTest < Minitest::Test
     sales_analyst.merchants_with_only_one_item_registered_in_month("June").each do |merchant|
       assert_instance_of Merchant, merchant
       assert_equal "June", merchant.created_at.strftime("%B")
-    end g
+    end 
   end
 
   def test_it_grab_invoices_from_merchants
