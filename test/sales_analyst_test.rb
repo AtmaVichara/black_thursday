@@ -229,14 +229,14 @@ class SalesAnalystTest < Minitest::Test
   end
 
   def test_it_groups_items_to_revenue
-    skip
     grouped_revenue = sales_analyst.group_items_to_revenue(12334141)
     actual_grouped_revenue = {263418403=>0.37688e4,
                               263501136=>0.358218e4,
                               263426891=>0.22129e4,
                               263540674=>0.493842e4,
-                              263415463=>0.74005e4
-                            }
+                              263415463=>0.74005e4,
+                              263465463=>0.74005e4}
+
 
     assert_equal actual_grouped_revenue, grouped_revenue
   end
@@ -246,9 +246,7 @@ class SalesAnalystTest < Minitest::Test
     top_item = sales_analyst.top_item_by_revenue_id(12334141)
 
     assert_equal 10, top_item.count
-    refute_equal 3, top_item.count
     assert_equal [263415463, 0.74005e4, 263540674, 0.493842e4], top_item[0..3]
-    refute_equal [263234463, 0.74044e4, 263123674, 0.493232e4], top_item[0..3]
   end
 
 end
