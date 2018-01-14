@@ -66,6 +66,13 @@ class SalesEngineTest < Minitest::Test
     assert_equal [], nil_items
   end
 
+  def test_it_finds_item_by_id
+    item = se.find_item_by_id(263398427)
+
+    assert_instance_of Item, item
+    assert_equal 263398427, item.id
+  end
+
   def test_it_returns_merchants_by_id
     merchant = se.find_merchant_by_id(12334195)
     nil_merch = se.find_merchant_by_id(23423523)
