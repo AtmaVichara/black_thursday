@@ -242,11 +242,10 @@ class SalesAnalystTest < Minitest::Test
   end
 
   def test_it_returns_top_item_by_revenue_id
-    skip
     top_item = sales_analyst.top_item_by_revenue_id(12334141)
 
-    assert_equal 10, top_item.count
-    assert_equal [263415463, 0.74005e4, 263540674, 0.493842e4], top_item[0..3]
+    assert_equal 12, top_item.count
+    assert_equal [263465463, 0.74005e4, 263415463, 0.74005e4], top_item[0..3]
   end
 
 end
