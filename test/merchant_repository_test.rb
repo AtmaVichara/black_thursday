@@ -11,14 +11,17 @@ class MerchantRepositoryTest < Minitest::Test
   end
 
   def test_it_exists
+    skip
     assert_instance_of MerchantRepository, merchant
   end
 
   def test_Merchants_is_filled
+    skip
     assert merchant.merchants.all? { |merch| merch.class == Merchant }
   end
 
   def test_it_returns_matches_by_id
+    skip
     found_id = merchant.find_by_id(12334185)
 
     refute_equal "SomeOtherNAME!!", found_id.name
@@ -26,6 +29,7 @@ class MerchantRepositoryTest < Minitest::Test
   end
 
   def test_it_returns_matches_by_name
+    skip
     found_name = merchant.find_by_name("FlavienCouche")
 
     assert_equal 12334195, found_name.id
@@ -33,6 +37,7 @@ class MerchantRepositoryTest < Minitest::Test
   end
 
   def test_it_returns_matches_for_all_by_name
+    skip
     found_names = merchant.find_all_by_name("an")
 
     assert_equal 1, found_names.count
@@ -40,6 +45,7 @@ class MerchantRepositoryTest < Minitest::Test
   end
 
   def test_it_returns_items_for_a_merchant
+    skip
     se = SalesEngine.from_csv({
       :items     => "./test/fixtures/items_sample.csv",
       :merchants => "./test/fixtures/merchants_sample.csv",
@@ -56,7 +62,8 @@ class MerchantRepositoryTest < Minitest::Test
     assert_equal 3, found_id.count
   end
 
-  def test_it_grabs_array_of_items # Returns an array of item count per merchant
+  def test_it_grabs_array_of_items
+    skip # Returns an array of item count per merchant
     se = SalesEngine.from_csv({
       :items     => "./test/fixtures/items_sample.csv",
       :merchants => "./test/fixtures/merchants_sample.csv",
@@ -67,7 +74,8 @@ class MerchantRepositoryTest < Minitest::Test
     assert_equal 7, found_merchants.count
   end
 
-  def test_it_grabs_array_of_invoices # Returns an array of invoice count per merchant
+  def test_it_grabs_array_of_invoices
+    skip # Returns an array of invoice count per merchant
     se = SalesEngine.from_csv({
       :merchants => "./test/fixtures/merchants_sample.csv",
       :invoices => "./test/fixtures/invoices_sample.csv"
@@ -79,6 +87,7 @@ class MerchantRepositoryTest < Minitest::Test
   end
 
   def test_it_finds_invoices_by_id
+    skip
     se = SalesEngine.from_csv({
       :merchants => "./test/fixtures/merchants_sample.csv",
       :invoices => "./test/fixtures/invoices_sample.csv"

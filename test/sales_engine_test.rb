@@ -86,7 +86,7 @@ class SalesEngineTest < Minitest::Test
     invoices_per = se.invoices_per_merchant
 
     assert_equal 7, invoices_per.count
-    assert_equal [8, 2, 1, 1, 1, 1, 1], invoices_per
+    assert_equal [9, 2, 1, 1, 1, 1, 1], invoices_per
   end
 
   def test_it_find_invoices_by_customer_id

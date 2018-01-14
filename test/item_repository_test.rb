@@ -17,7 +17,7 @@ class ItemRepositoryTest < Minitest::Test
   end
 
   def test_all_items_is_returned
-    assert_equal 25, item.items.count
+    assert_equal 26, item.items.count
     item.all.each do |i|
       assert_instance_of Item, i
     end
