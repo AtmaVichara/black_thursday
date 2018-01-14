@@ -26,16 +26,18 @@ class MerchantRepositoryTest < Minitest::Test
     nil_merchant = merchant_repo.find_by_id(22222222)
 
     assert_instance_of Merchant, found_merchant
+    assert_equal 12334185, found_merchant.id
     assert_equal "Madewithgitterxx", found_merchant.name
     assert_nil nil_merchant
   end
 
   def test_it_returns_matches_by_name
-    skip
-    found_name = merchant.find_by_name("FlavienCouche")
+    found_merchant = merchant_repo.find_by_name("FlavienCouche")
+    nil_merchant = merchant_repo.find_by_name("BOMBASTIC!!!!")
 
-    assert_equal 12334195, found_name.id
-    refute_equal "123223", found_name.id
+    assert_equal "FlavienCouche", found_merchant.name
+    assert_equal 12334195, found_merchant.id
+    assert_nil nil_merchant
   end
 
   def test_it_returns_matches_for_all_by_name
