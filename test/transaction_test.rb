@@ -3,7 +3,6 @@ require 'time'
 require_relative "../lib/transaction"
 require_relative "../lib/sales_engine"
 
-
 class TransactionTest < Minitest::Test
 
   attr_reader :transaction

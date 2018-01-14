@@ -2,11 +2,10 @@ require_relative 'test_helper'
 require 'time'
 require_relative "../lib/customer"
 
-
 class CustomerTest < Minitest::Test
 
   attr_reader :customer
-  
+
   def setup
     customer_data = {
       :id           => "1",
