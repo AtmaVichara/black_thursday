@@ -201,11 +201,15 @@ class SalesAnalystTest < Minitest::Test
   def test_it_groups_items_to_invoice_attributes
     grouped_attributes = sales_analyst.group_items_to_invoice_attributes(12334141)
 
-    refute_equal 10, grouped_attributes.count
     assert_equal 5, grouped_attributes.count
     assert_equal [263418403, [7, 0.5384e3]], grouped_attributes.first
     assert_instance_of Hash, grouped_attributes
-    refute_instance_of Array, grouped_attributes
+    grouped_attributes.keys.each do |k|
+      assert_instance_of Integer, k
+    end
+    grouped_attributes.values.each do |v|
+      assert_instance_of Array, v
+    end
   end
 
   def test_it_grabs_most_sold_items
