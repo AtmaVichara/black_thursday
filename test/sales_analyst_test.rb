@@ -174,8 +174,11 @@ class SalesAnalystTest < Minitest::Test
   end
 
   def test_it_grabs_merchants_ranked_by_revenue
-    skip
     assert_equal 7, sales_analyst.merchants_ranked_by_revenue.count
+    sales_analyst.merchants_ranked_by_revenue.each do |merchant|
+      assert_instance_of Merchant, merchant
+    end
+    assert_equal "jejum", sales_analyst.merchants_ranked_by_revenue.first.name
   end
 
   def test_it_grabs_merchants_with_only_one_item_registered_in_month
