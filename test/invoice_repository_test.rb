@@ -16,8 +16,10 @@ class InvoiceRepositoryTest < Minitest::Test
   end
 
   def test_it_returns_all_invoices
-    skip
-    assert_equal 19, invoices.all.count
+    assert_equal 20, invoice_repo.all.count
+    invoice_repo.all.each do |invoice|
+      assert_instance_of Invoice, invoice
+    end
   end
 
   def test_it_finds_by_id
