@@ -64,26 +64,32 @@ class InvoiceRepositoryTest < Minitest::Test
   end
 
   def test_it_finds_all_by_status
-    skip
-    invoices = InvoiceRepository.new("./test/fixtures/invoices_sample.csv", "se")
-    invoice_ticket = invoices.find_all_by_status(:shipped)
+    shipped_invoices = invoice_repo.find_all_by_status(:shipped)
+    pending_invoices = invoice_repo.find_all_by_status(:pending)
+    returned_invoices = invoice_repo.find_all_by_status(:returned)
 
-    assert_equal 12, invoice_ticket.count
+    assert_equal 13, shipped_invoices.count
+    shipped_invoices.each do |invoice|
+      assert_instance_of Invoice, invoice
+      assert_equal :shipped, invoice.status
+    end
+    assert_equal 3, pending_invoices.count
+    pending_invoices.each do |invoice|
+      assert_instance_of Invoice, invoice
+      assert_equal :pending, invoice.status
+    end
+    assert_equal 4, returned_invoices.count
+    returned_invoices.each do |invoice|
+      assert_instance_of Invoice, invoice
+      assert_equal :returned, invoice.status
+    end
   end
 
-  def test_it_finds_merchant_by_invoice
-    skip
-    se = SalesEngine.from_csv({
-      invoices: "./test/fixtures/invoices_sample.csv",
-      invoice_items: "./test/fixtures/invoice_items_sample.csv",
-      customers: "./test/fixtures/customers_sample.csv",
-      merchants: "./test/fixtures/merchants_sample.csv",
-      items: "./test/fixtures/items_sample.csv"
-    })
-    merchant = se.invoices.find_merchant_by_merchant_id(12334141)
+  def test_it_finds_merchant_by_merchant_id
+    merchant = mock('merchant')
+    invoice_repo.se.stubs(:find_merchant_by_id).returns(merchant)
 
-    assert_equal "jejum", merchant.name
-    refute_equal "jjum", merchant.name
+    assert_equal merchant, invoice_repo.find_merchant_by_merchant_id(3)
   end
 
   def test_it_grabs_array_of_invoices
