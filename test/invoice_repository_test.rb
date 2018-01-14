@@ -56,11 +56,13 @@ class InvoiceRepositoryTest < Minitest::Test
   end
 
   def test_it_finds_all_invoice_id
-    skip
-    invoices = InvoiceRepository.new("./test/fixtures/invoices_sample.csv", "se")
-    invoice_ticket = invoices.find_all_by_invoice_id(1053)
+    invoices = invoice_repo.find_all_by_invoice_id(1053)
 
-    assert_equal 4, invoice_ticket.count
+    assert_equal 4, invoices.count
+    invoices.each do |invoice|
+      assert_instance_of Invoice, invoice
+      assert_equal 1053, invoice.id
+    end 
   end
 
   def test_it_finds_all_by_status
