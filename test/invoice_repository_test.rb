@@ -35,6 +35,7 @@ class InvoiceRepositoryTest < Minitest::Test
     invoices = invoice_repo.find_all_by_customer_id(528)
     nil_invoices = invoice_repo.find_all_by_customer_id(52823)
 
+    assert_equal 1, invoices.count
     invoices.each do |invoice|
       assert_instance_of Invoice, invoice
       assert_equal 528, invoice.customer_id
@@ -43,11 +44,15 @@ class InvoiceRepositoryTest < Minitest::Test
   end
 
   def test_it_finds_all_merchant_id
-    skip
-    invoices = InvoiceRepository.new("./test/fixtures/invoices_sample.csv", "se")
-    invoice_ticket = invoices.find_all_by_merchant_id(12334141)
+    invoices = invoice_repo.find_all_by_merchant_id(12334141)
+    nil_invoices = invoice_repo.find_all_by_merchant_id(22222222)
 
-    assert_equal 8, invoice_ticket.count
+    assert_equal 9, invoices.count
+    invoices.each do |invoice|
+      assert_instance_of Invoice, invoice
+      assert_equal 12334141, invoice.merchant_id
+    end
+    assert_equal [], nil_invoices
   end
 
   def test_it_finds_all_invoice_id
