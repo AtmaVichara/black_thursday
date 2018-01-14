@@ -4,7 +4,7 @@ require_relative '../lib/sales_engine'
 
 class InvoiceRepositoryTest < Minitest::Test
 
-  attr_reader: invoice_repo
+  attr_reader :invoice_repo
 
   def setup
     parent = mock('sales_engine')
@@ -12,7 +12,7 @@ class InvoiceRepositoryTest < Minitest::Test
   end
 
   def test_it_exists
-    assert_instance_of InvoiceRepository, invoice
+    assert_instance_of InvoiceRepository, invoice_repo
   end
 
   def test_it_returns_all_invoices
