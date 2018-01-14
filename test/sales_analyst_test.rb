@@ -45,14 +45,17 @@ class SalesAnalystTest < Minitest::Test
     assert_instance_of Merchant, sales_analyst.merchants_with_high_item_count.first
   end
 
-  def test_it_returns_top_merchants_by_invoice_count # Fixtures Need more Data
-    assert_equal 0, sales_analyst.top_merchants_by_invoice_count.count
-    refute_equal 3, sales_analyst.top_merchants_by_invoice_count.count
+  def test_it_returns_top_merchants_by_invoice_count
+    assert_equal 1, sales_analyst.top_merchants_by_invoice_count.count
+    assert_instance_of Merchant, sales_analyst.top_merchants_by_invoice_count.first
   end
 
-  def test_it_returns_bottom_merchants_by_invoice_count # Fixtures Need more Data
+  def test_it_returns_bottom_merchants_by_invoice_count
+    double_deviation = (sales_analyst.average_invoices_per_merchant_standard_deviation * 2)
+    mean = sales_analyst.average_invoices_per_merchant - double_deviation
+
+    assert_equal (-3.2399999999999998), mean
     assert_equal 0, sales_analyst.bottom_merchants_by_invoice_count.count
-    refute_equal 3, sales_analyst.bottom_merchants_by_invoice_count.count
   end
 
   def test_it_returns_average_price_of_merchants_items
@@ -60,17 +63,17 @@ class SalesAnalystTest < Minitest::Test
   end
 
   def test_it_returns_average_invoices_per_merchant
-    assert_equal 2.71, sales_analyst.average_invoices_per_merchant
+    assert_equal 2.86, sales_analyst.average_invoices_per_merchant
   end
 
   def test_it_returns_standard_deviation_for_invoices
-    assert_equal 2.68, sales_analyst.average_invoices_per_merchant_standard_deviation
+    assert_equal 3.05, sales_analyst.average_invoices_per_merchant_standard_deviation
   end
 
   def test_it_returns_status_of_invoices_as_percentage
-    assert_equal 15.79, sales_analyst.invoice_status(:pending)
-    assert_equal 63.16 , sales_analyst.invoice_status(:shipped)
-    assert_equal 21.05, sales_analyst.invoice_status(:returned)
+    assert_equal 15.0, sales_analyst.invoice_status(:pending)
+    assert_equal 65.0 , sales_analyst.invoice_status(:shipped)
+    assert_equal 20.0, sales_analyst.invoice_status(:returned)
   end
 
   def test_it_returns_group_invoices_by_day
@@ -92,7 +95,7 @@ class SalesAnalystTest < Minitest::Test
   end
 
   def test_it_returns_average_invoices_per_day_standard_deviation
-    assert_equal 2.24, sales_analyst.average_invoices_per_day_standard_deviation
+    assert_equal 2.65, sales_analyst.average_invoices_per_day_standard_deviation
   end
 
   def test_it_returns_top_days_by_invoice_count
@@ -114,11 +117,11 @@ class SalesAnalystTest < Minitest::Test
   end
 
   def test_it_returns_array_of_invoices_per_day
-    assert_equal [2, 6, 6, 1, 2, 1, 1], sales_analyst.invoices_per_day
+    assert_equal [2, 7, 6, 1, 2, 1, 1], sales_analyst.invoices_per_day
   end
 
   def test_average_invoices_per_day_standard_deviation
-    assert_equal 2.68, sales_analyst.average_invoices_per_merchant_standard_deviation
+    assert_equal 3.05, sales_analyst.average_invoices_per_merchant_standard_deviation
   end
 
   def test_it_returns_total_revenue_by_date
@@ -143,12 +146,12 @@ class SalesAnalystTest < Minitest::Test
     end
   end
 
-  def test_it_returns_top_earners # Add more data for fixtures
-    skip
+  def test_it_returns_top_earners
     assert_equal 7, sales_analyst.top_revenue_earners.count
     sales_analyst.top_revenue_earners.each do |merchant|
       assert_instance_of Merchant, merchant
     end
+    assert_equal "jejum", sales_analyst.top_revenue_earners.first.name
   end
 
   def test_it_grabs_merchants_with_only_one_item
@@ -159,8 +162,7 @@ class SalesAnalystTest < Minitest::Test
     end
   end
 
-  def test_it_grabs_merchants_with_pending_invoices # Add more data for fixtures
-    skip
+  def test_it_grabs_merchants_with_pending_invoices
     assert_equal 7, sales_analyst.merchants_with_pending_invoices.count
     assert sales_analyst.merchants_with_pending_invoices.each do |merchant|
        assert_instance_of Merchant, merchant

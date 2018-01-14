@@ -86,7 +86,7 @@ class SalesAnalyst
     double_deviation = (average_invoices_per_merchant_standard_deviation * 2)
     mean = average_invoices_per_merchant + double_deviation
     se.grab_all_merchants.find_all do |merchant|
-      merchant if merchant.invoices.count > mean
+      merchant.invoices.count > mean
     end
   end
 
@@ -94,7 +94,7 @@ class SalesAnalyst
     double_deviation = (average_invoices_per_merchant_standard_deviation * 2)
     mean = average_invoices_per_merchant - double_deviation
     se.grab_all_merchants.find_all do |merchant|
-      merchant if merchant.invoices.count < mean
+      merchant.invoices.count < mean
     end
   end
 
