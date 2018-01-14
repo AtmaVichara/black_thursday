@@ -220,7 +220,7 @@ class SalesAnalyst
   def most_sold_item_for_merchant(merchant_id)
     grab_most_sold_items(merchant_id).map do |item_id|
       se.items.find_by_id(item_id)
-    end
+    end.compact
   end
 
   def group_items_to_revenue(merchant_id)
