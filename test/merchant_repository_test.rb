@@ -4,28 +4,30 @@ require_relative "../lib/sales_engine"
 
 class MerchantRepositoryTest < Minitest::Test
 
-  attr_reader :merchant
+  attr_reader :merchant_repo
 
   def setup
-    @merchant = MerchantRepository.new("./test/fixtures/merchants_sample.csv", "se")
+    parent = mock('merchant_repo')
+    @merchant_repo = MerchantRepository.new("./test/fixtures/merchants_sample.csv", parent)
   end
 
   def test_it_exists
-    skip
-    assert_instance_of MerchantRepository, merchant
+    assert_instance_of MerchantRepository, merchant_repo
   end
 
   def test_Merchants_is_filled
-    skip
-    assert merchant.merchants.all? { |merch| merch.class == Merchant }
+    merchant_repo.all.each do |merchant|
+      assert_instance_of Merchant, merchant
+    end
   end
 
   def test_it_returns_matches_by_id
-    skip
-    found_id = merchant.find_by_id(12334185)
+    found_merchant = merchant_repo.find_by_id(12334185)
+    nil_merchant = merchant_repo.find_by_id(22222222)
 
-    refute_equal "SomeOtherNAME!!", found_id.name
-    assert_equal "Madewithgitterxx", found_id.name
+    assert_instance_of Merchant, found_merchant
+    assert_equal "Madewithgitterxx", found_merchant.name
+    assert_nil nil_merchant
   end
 
   def test_it_returns_matches_by_name
