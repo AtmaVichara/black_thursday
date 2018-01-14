@@ -74,6 +74,8 @@ class SalesAnalystTest < Minitest::Test
   end
 
   def test_it_returns_group_invoices_by_day
+    days = ["Sunday", "Monday", "Wednesday", "Thursday", "Friday", "Tuesday", "Saturday"]
+
     assert_equal 7, sales_analyst.group_invoices_by_day.count
     sales_analyst.group_invoices_by_day.values.each do |value|
       value.each do |v|
@@ -81,7 +83,7 @@ class SalesAnalystTest < Minitest::Test
       end
     end
     sales_analyst.group_invoices_by_day.keys.each do |key|
-      assert key == "Sunday" || "Monday" || "Wednesday" || "Thursday" || "Friday" || "Tuesday" || "Saturday"
+      assert days.include?(key)
     end
   end
 
@@ -91,7 +93,6 @@ class SalesAnalystTest < Minitest::Test
 
   def test_it_returns_average_invoices_per_day_standard_deviation
     assert_equal 2.24, sales_analyst.average_invoices_per_day_standard_deviation
-    refute_equal 2.63, sales_analyst.average_invoices_per_day_standard_deviation
   end
 
   def test_it_returns_top_days_by_invoice_count
@@ -99,28 +100,40 @@ class SalesAnalystTest < Minitest::Test
   end
 
   def test_it_returns_group_by_status
+    status = [:shipped, :pending, :returned]
+
     assert_equal 3, sales_analyst.group_by_status.count
-    refute_equal "2", sales_analyst.group_by_status.count
-    refute_equal 7, sales_analyst.group_by_status.count
+    sales_analyst.group_by_status.keys.each do |key|
+      assert status.include?(key)
+    end
+    sales_analyst.group_by_status.values.each do |value|
+      value.each do |v|
+        assert_instance_of Invoice, v
+      end
+    end
   end
 
   def test_it_returns_array_of_invoices_per_day
+    skip
     assert_equal [2, 6, 6, 1, 2, 1, 1], sales_analyst.invoices_per_day
     refute_equal [], sales_analyst.invoices_per_day
     refute_equal [5, 3, 3, 1, 1, 1, 1], sales_analyst.invoices_per_day
   end
 
   def test_average_invoices_per_day_standard_deviation
+    skip
     assert_equal 2.68, sales_analyst.average_invoices_per_merchant_standard_deviation
     refute_equal 1.29, sales_analyst.average_invoices_per_merchant_standard_deviation
   end
 
   def test_it_returns_total_revenue_by_date
+    skip
     assert_equal 0.2023211e5, sales_analyst.total_revenue_by_date(Time.parse('2009-12-09'))
     refute_equal 'hopefully no strings', sales_analyst.total_revenue_by_date(Time.parse('2009-12-09'))
   end
 
   def test_it_grabs_invoice_by_date
+    skip
     invoice = sales_analyst.grab_invoice_by_date(Time.parse('2009-12-09'))
 
     assert_equal 3, invoice.first.id
@@ -128,24 +141,28 @@ class SalesAnalystTest < Minitest::Test
   end
 
   def test_it_grabs_invoice_by_date
+    skip
     invoice_items = sales_analyst.grab_invoice_items_by_invoice_date(Time.parse('2009-12-09'))
 
     assert invoice_items.all? { |invoice_item| invoice_item.class == InvoiceItem }
   end
 
   def test_it_returns_top_earners
+    skip
     assert sales_analyst.top_revenue_earners.all? { |merch| merch.class == Merchant }
     assert_equal 7, sales_analyst.top_revenue_earners.count
     assert_equal 12334141, sales_analyst.top_revenue_earners.first.id
   end
 
   def test_it_grabs_merchants_with_only_one_item
+    skip
     assert_equal 3, sales_analyst.merchants_with_only_one_item.count
     refute_equal 1, sales_analyst.merchants_with_only_one_item.count
     assert sales_analyst.merchants_with_only_one_item.all? { |merch| merch.class == Merchant }
   end
 
   def test_it_grabs_merchants_with_pending_invoices
+    skip
     assert sales_analyst.merchants_with_pending_invoices.all? do |merchant|
        merchant.class == Merchant
     end
@@ -154,19 +171,23 @@ class SalesAnalystTest < Minitest::Test
   end
 
   def test_it_returns_merchants_revenue
+    skip
     assert_equal 73407, sales_analyst.revenue_by_merchant(12334141).to_i
     refute_equal 3244244233, sales_analyst.revenue_by_merchant(12334141)
   end
 
   def test_it_grabs_merchants_ranked_by_revenue
+    skip
     assert_equal 7, sales_analyst.merchants_ranked_by_revenue.count
   end
 
   def test_it_grabs_merchants_with_only_one_item_registered_in_month
+    skip
     assert_equal 2, sales_analyst.merchants_with_only_one_item_registered_in_month("June").count
   end
 
   def test_it_grab_invoices_from_merchants
+    skip
     paid_invoices = sales_analyst.grab_paid_invoice_items_from_merchants(12334141)
 
     assert_equal 14, paid_invoices.count
@@ -176,6 +197,7 @@ class SalesAnalystTest < Minitest::Test
   end
 
   def test_it_groups_items_to_invoice_attributes
+    skip
     grouped_attributes = sales_analyst.group_items_to_invoice_attributes(12334141)
 
     refute_equal 10, grouped_attributes.count
@@ -186,6 +208,7 @@ class SalesAnalystTest < Minitest::Test
   end
 
   def test_it_grabs_most_sold_items
+    skip
     most_sold = sales_analyst.grab_most_sold_items(12334141)
 
     assert_equal 1, most_sold.count
@@ -194,12 +217,14 @@ class SalesAnalystTest < Minitest::Test
   end
 
   def test_it_grabs_most_sold_item_for_merchant
+    skip
     most_sold = sales_analyst.most_sold_item_for_merchant(12334141)
 
     assert_equal 1, most_sold.count
   end
 
   def test_it_groups_items_to_revenue
+    skip
     grouped_revenue = sales_analyst.group_items_to_revenue(12334141)
     actual_grouped_revenue = {263418403=>0.37688e4,
                               263501136=>0.358218e4,
@@ -212,6 +237,7 @@ class SalesAnalystTest < Minitest::Test
   end
 
   def test_it_returns_top_item_by_revenue_id
+    skip
     top_item = sales_analyst.top_item_by_revenue_id(12334141)
 
     assert_equal 10, top_item.count
