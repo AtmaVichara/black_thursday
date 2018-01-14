@@ -128,16 +128,19 @@ class SalesAnalystTest < Minitest::Test
   def test_it_grabs_invoice_by_date
     invoice = sales_analyst.grab_invoice_by_date(Time.parse('2009-12-09'))
 
-    assert_instance_of Invoice, invoice
+    assert_instance_of Invoice, invoice.first
     assert_equal 3, invoice.first.id
     assert_equal (Time.parse('2009-12-09')).to_i, invoice.first.created_at.to_i
   end
 
   def test_it_grabs_invoice_item_by_date
-    skip
     invoice_items = sales_analyst.grab_invoice_items_by_invoice_date(Time.parse('2009-12-09'))
 
-    assert invoice_items.all? { |invoice_item| invoice_item.class == InvoiceItem }
+    assert_equal 5, invoice_items.count
+    invoice_items.each do |ii|
+      assert_instance_of InvoiceItem, ii
+      assert_equal 3, ii.invoice_id
+    end
   end
 
   def test_it_returns_top_earners
