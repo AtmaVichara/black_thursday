@@ -1,7 +1,6 @@
 require_relative 'test_helper'
 require_relative '../lib/sales_analyst'
 
-
 class SalesAnalystTest < Minitest::Test
 
   attr_reader :sales_analyst
