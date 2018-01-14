@@ -60,31 +60,28 @@ class MerchantRepositoryTest < Minitest::Test
   end
 
   def test_it_grabs_array_of_items
-    skip # Returns an array of item count per merchant
     se = SalesEngine.from_csv({
       :items     => "./test/fixtures/items_sample.csv",
       :merchants => "./test/fixtures/merchants_sample.csv",
     })
-    found_merchants = se.merchants.grab_array_of_items
+    found_merchants = se.merchants.items_per_merchant
 
     assert_equal [1, 3, 1, 10, 2, 3, 1], found_merchants
     assert_equal 7, found_merchants.count
   end
 
   def test_it_grabs_array_of_invoices
-    skip # Returns an array of invoice count per merchant
     se = SalesEngine.from_csv({
       :merchants => "./test/fixtures/merchants_sample.csv",
       :invoices => "./test/fixtures/invoices_sample.csv"
     })
-    found_merchants = se.merchants.grab_array_of_invoices
+    found_merchants = se.merchants.invoices_per_merchant
 
-    assert_equal [8, 2, 1, 1, 1, 1, 1], found_merchants
+    assert_equal [9, 2, 1, 1, 1, 1, 1], found_merchants
     assert_equal 7, found_merchants.count
   end
 
   def test_it_finds_invoices_by_id
-    skip
     se = SalesEngine.from_csv({
       :merchants => "./test/fixtures/merchants_sample.csv",
       :invoices => "./test/fixtures/invoices_sample.csv"
@@ -93,7 +90,7 @@ class MerchantRepositoryTest < Minitest::Test
 
     assert_equal 641, found_merchants.first.id
     assert_equal :shipped, found_merchants.first.status
-    assert_equal 8, found_merchants.count
+    assert_equal 9, found_merchants.count
   end
 
 end
