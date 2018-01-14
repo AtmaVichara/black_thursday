@@ -54,11 +54,11 @@ class SalesEngine
   end
 
   def items_per_merchant
-    merchants.grab_array_of_items
+    merchants.items_per_merchant
   end
 
   def invoices_per_merchant
-    merchants.grab_array_of_invoices
+    merchants.invoices_per_merchant
   end
 
   def find_invoices_by_customer_id(customer_id)

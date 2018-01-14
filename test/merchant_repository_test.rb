@@ -4,90 +4,84 @@ require_relative "../lib/sales_engine"
 
 class MerchantRepositoryTest < Minitest::Test
 
-  attr_reader :merchant
+  attr_reader :merchant_repo
 
   def setup
-    @merchant = MerchantRepository.new("./test/fixtures/merchants_sample.csv", "se")
+    parent = mock('merchant_repo')
+    @merchant_repo = MerchantRepository.new("./test/fixtures/merchants_sample.csv", parent)
   end
 
   def test_it_exists
-    skip
-    assert_instance_of MerchantRepository, merchant
+    assert_instance_of MerchantRepository, merchant_repo
   end
 
   def test_Merchants_is_filled
-    skip
-    assert merchant.merchants.all? { |merch| merch.class == Merchant }
+    merchant_repo.all.each do |merchant|
+      assert_instance_of Merchant, merchant
+    end
   end
 
   def test_it_returns_matches_by_id
-    skip
-    found_id = merchant.find_by_id(12334185)
+    found_merchant = merchant_repo.find_by_id(12334185)
+    nil_merchant = merchant_repo.find_by_id(22222222)
 
-    refute_equal "SomeOtherNAME!!", found_id.name
-    assert_equal "Madewithgitterxx", found_id.name
+    assert_instance_of Merchant, found_merchant
+    assert_equal 12334185, found_merchant.id
+    assert_equal "Madewithgitterxx", found_merchant.name
+    assert_nil nil_merchant
   end
 
   def test_it_returns_matches_by_name
-    skip
-    found_name = merchant.find_by_name("FlavienCouche")
+    found_merchant = merchant_repo.find_by_name("FlavienCouche")
+    nil_merchant = merchant_repo.find_by_name("BOMBASTIC!!!!")
 
-    assert_equal 12334195, found_name.id
-    refute_equal "123223", found_name.id
+    assert_equal "FlavienCouche", found_merchant.name
+    assert_equal 12334195, found_merchant.id
+    assert_nil nil_merchant
   end
 
   def test_it_returns_matches_for_all_by_name
-    skip
-    found_names = merchant.find_all_by_name("an")
+    found_merchants = merchant_repo.find_all_by_name("an")
 
-    assert_equal 1, found_names.count
-    assert_includes found_names.first.name.downcase, "an"
+    assert_equal 1, found_merchants.count
+    found_merchants.each do |merchant|
+      assert_instance_of Merchant, merchant
+      assert_includes found_merchants.first.name.downcase, "an"
+    end
   end
 
   def test_it_returns_items_for_a_merchant
-    skip
-    se = SalesEngine.from_csv({
-      :items     => "./test/fixtures/items_sample.csv",
-      :merchants => "./test/fixtures/merchants_sample.csv",
-    })
+    item_1 = mock('item')
+    item_2 = mock('item')
+    item_3 = mock('item')
+    merchant_repo.se.stubs(:find_item_by_merchant_id).returns([item_1, item_2, item_3])
 
-    merchants = se.merchants
-    merchant_id = 12334185
-    found_id = merchants.find_item(merchant_id)
-
-    found_id.each do |item|
-      assert_instance_of Item, item
-    end
-    refute_equal 5, found_id.count
-    assert_equal 3, found_id.count
+    assert_equal [item_1, item_2, item_3], merchant_repo.find_item(3)
   end
 
   def test_it_grabs_array_of_items
-    skip # Returns an array of item count per merchant
     se = SalesEngine.from_csv({
       :items     => "./test/fixtures/items_sample.csv",
       :merchants => "./test/fixtures/merchants_sample.csv",
     })
-    found_merchants = se.merchants.grab_array_of_items
+    found_merchants = se.merchants.items_per_merchant
 
     assert_equal [1, 3, 1, 10, 2, 3, 1], found_merchants
     assert_equal 7, found_merchants.count
   end
 
   def test_it_grabs_array_of_invoices
-    skip # Returns an array of invoice count per merchant
     se = SalesEngine.from_csv({
       :merchants => "./test/fixtures/merchants_sample.csv",
       :invoices => "./test/fixtures/invoices_sample.csv"
     })
-    found_merchants = se.merchants.grab_array_of_invoices
+    found_merchants = se.merchants.invoices_per_merchant
 
-    assert_equal [8, 2, 1, 1, 1, 1, 1], found_merchants
+    assert_equal [9, 2, 1, 1, 1, 1, 1], found_merchants
     assert_equal 7, found_merchants.count
   end
 
   def test_it_finds_invoices_by_id
-    skip
     se = SalesEngine.from_csv({
       :merchants => "./test/fixtures/merchants_sample.csv",
       :invoices => "./test/fixtures/invoices_sample.csv"
@@ -96,7 +90,7 @@ class MerchantRepositoryTest < Minitest::Test
 
     assert_equal 641, found_merchants.first.id
     assert_equal :shipped, found_merchants.first.status
-    assert_equal 8, found_merchants.count
+    assert_equal 9, found_merchants.count
   end
 
 end
